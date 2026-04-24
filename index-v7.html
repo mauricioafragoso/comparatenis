@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">ComparaTênis — Comparador de Tênis de Corrida</title>
+<meta name="description" id="page-desc" content="Compare tênis de corrida lado a lado. Veja diferenças técnicas, pontuação objetiva e escolha o melhor tênis para o seu perfil.">
+<link rel="canonical" id="page-canonical" href="https://comparatenis.com.br/">
+<meta name="robots" id="page-robots" content="index, follow">
+<script type="application/ld+json" id="schema-jsonld"></script>
+<meta property="og:title" id="og-title" content="ComparaTênis — Comparador de Tênis de Corrida">
+<meta property="og:description" id="og-desc" content="Compare tênis de corrida lado a lado. Veja diferenças técnicas, pontuação objetiva e escolha o melhor tênis para o seu perfil.">
+<meta property="og:image" id="og-image" content="/assets/og-default.webp">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ComparaTênis">
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #FC4C02;
+  --orange-light: #fff2ed;
+  --yellow: #F5A623;
+  --yellow-light: #fef8ee;
+  --gray-col: #888888;
+  --gray-col-light: #f4f4f4;
+  --black: #111111;
+  --gray-mid: #666666;
+  --gray-light: #F7F7F7;
+  --border: #E5E5E5;
+  --white: #FFFFFF;
+  --font: 'Barlow', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --col-label: 200px;
+}
+body { font-family: var(--font); color: var(--black); background: var(--white); }
+
+/* HERO */
+.hero {
+  padding: 3.5rem 2rem 4rem 6rem;
+  text-align: left;
+  background-image: url('/assets/hero-bg.webp');
+  background-size: cover;
+background-position: right 60%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* overlay */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.45) 0%,
+    rgba(0,0,0,0.35) 40%,
+    rgba(0,0,0,0.10) 70%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.05;
+  margin-bottom: 12px;
+  max-width: 600px;
+  margin-left: 0;
+  margin-right: 0;
+  color: white;
+}
+
+.hero h1 span {
+  color: var(--orange);
+}
+
+.hero p {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  color: rgba(255,255,255,0.9);
+  max-width: 550px;
+  margin: 0 0 28px 0;
+  line-height: 1.6;
+}
+.hero-chip {
+  display: inline-block;
+  background: var(--orange);
+  color: white;
+  font-size: 13px;
+  padding: 4px 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+  .hero {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    background: var(--gray-light);
+  }
+
+  .hero::before {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    color: var(--black);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--gray-mid);
+    margin: 0 auto 28px;
+  }
+}
+
+/* SELECTOR */
+.selector-area { padding: 2rem; background: var(--white); }
+.slots-row { display: grid; grid-template-columns: 1fr 48px 1fr auto; gap: 12px; align-items: start; max-width: 900px; margin: 0 auto 1.5rem; }
+
+/* SLOT CARD */
+.slot-card { border: 2px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--white); transition: border-color 0.2s; }
+.slot-card:focus-within { border-color: var(--orange); }
+.slot-card.has-shoe.slot-1 { border-top: 3px solid var(--yellow); }
+.slot-card.has-shoe.slot-2 { border-top: 3px solid var(--yellow); }
+
+/* BUSCA */
+.slot-search-wrap { position: relative; }
+.slot-input-row { position: relative; }
+.slot-search { width: 100%; padding: 11px 14px 11px 36px; border: none; border-bottom: 1px solid var(--border); font-family: var(--font); font-size: 14px; outline: none; background: var(--gray-light); color: var(--black); }
+.slot-search::placeholder { color: #aaa; }
+.slot-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; z-index: 1; }
+.slot-dropdown { display: none; max-height: 240px; overflow-y: auto; background: var(--white); position: relative; z-index: 0; }
+.slot-dropdown.open { display: block; }
+.slot-dropdown-item { padding: 10px 14px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.slot-dropdown-item:last-child { border-bottom: none; }
+.slot-dropdown-item:hover { background: var(--orange-light); }
+.slot-dropdown-empty { padding: 12px 14px; font-size: 13px; color: var(--gray-mid); font-style: italic; }
+.di-marca { font-weight: 400; color: var(--gray-mid); margin-right: 4px; }
+.di-modelo { font-weight: 700; color: var(--black); }
+.di-genero { font-size: 10px; color: var(--gray-mid); margin-left: 6px; }
+
+/* ESTADO VAZIO — placeholder ~3x maior */
+.slot-empty-body { padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; min-height: 160px; justify-content: center; }
+.slot-empty-icon { display: flex; align-items: center; justify-content: center; }
+.slot-empty-icon img { width: 130px; height: 130px; object-fit: contain; opacity: 0.18; }
+.slot-empty-hint { font-size: 13px; color: var(--gray-mid); line-height: 1.5; }
+
+/* ESTADO PREENCHIDO */
+.slot-filled-body { display: none; position: relative; }
+.slot-remove { position: absolute; top: 10px; right: 10px; z-index: 2; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,0.18); border: none; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+.slot-remove:hover { background: var(--orange); }
+.slot-shoe-img { width: 100%; height: 280px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.slot-shoe-img img.shoe-photo { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.slot-shoe-img img.shoe-placeholder { width: 72px; height: 72px; object-fit: contain; opacity: 0.2; }
+.slot-info { padding: 10px 12px 14px; }
+.slot-brand { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 2px; }
+.slot-genero { font-size: 11px; color: var(--gray-mid); margin-bottom: 4px; }
+.slot-name { font-size: 20px; font-weight: 700; margin: 0 0 4px; line-height: 1.2; }
+.slot-name a { color: inherit; text-decoration: none; }
+.slot-name a:hover { color: var(--orange); }
+.slot-ficha-link { display: inline-block; font-size: 11px; color: var(--orange); text-decoration: none; margin-top: 10px; opacity: 0.85; }
+.slot-ficha-link:hover { opacity: 1; text-decoration: underline; }
+.slot-shoe-img a.shoe-img-link { display: block; width: 100%; height: 100%; }
+.slot-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.slot-tag { font-size: 11px; color: var(--orange); background: var(--orange-light); border-radius: 4px; padding: 2px 7px; font-weight: 600; }
+
+/* VS badge */
+.vs-badge { display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--gray-mid); padding-top: 90px; }
+
+/* BOTAO COMPARAR */
+.compare-col { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 80px; }
+.btn-compare { background: var(--orange); color: white; border: none; padding: 14px 24px; border-radius: 10px; font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer; opacity: 0.35; transition: opacity 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+.btn-compare.active { opacity: 1; }
+.btn-compare .icon { font-size: 16px; line-height: 1; }
+
+/* POPULAR */
+.popular-section { max-width: 900px; margin: 0 auto; }
+.popular-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 8px; }
+.popular-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip { padding: 6px 14px; border: 1.5px solid var(--border); border-radius: 20px; font-size: 13px; cursor: pointer; background: var(--white); transition: all 0.15s; font-family: var(--font); font-weight: 500; }
+.chip:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+.chip.used { opacity: 0.4; cursor: default; pointer-events: none; }
+
+/* PAGE WRAP — sem side-nav, largura total */
+.page-wrap { display: block; max-width: 900px; margin: 0 auto; }
+
+/* RESULT */
+.comparison-result { display: none; padding: 0 2rem 6rem; }
+.comparison-result.visible { display: block; }
+
+/* BARRA COMPARANDO — sticky */
+.compare-bar { display: none; position: sticky; top: 0; z-index: 100; background: var(--white); box-shadow: 0 2px 16px rgba(0,0,0,0.08); margin: 0 -2rem; }
+.compare-bar.visible { display: block; }
+.compare-bar-inner { display: grid; grid-template-columns: 1fr 1px 1fr; width: 100%; background: #FFFAF3; border-radius: 0 0 10px 10px; }
+.compare-bar-divider { background: #D6C39A; opacity: 1; width: 3px; }
+.compare-bar-shoe { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; }
+.compare-bar-shoe.s1,
+.compare-bar-shoe.s2 { border-top: 3px solid #E8D3A5; }
+.cbs-info { min-width: 0; flex: 1; }
+.cbs-marca { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 1px; }
+.cbs-modelo { font-size: 15px; font-weight: 800; white-space: normal; overflow: visible; text-overflow: initial; line-height: 1.1; }
+.cbs-genero { font-size: 11px; color: var(--gray-mid); }
+.cbs-cta { flex-shrink: 0; }
+.cbs-buy { background: var(--orange); color: white; border: none; padding: 5px 11px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: var(--font); white-space: nowrap; }
+.cbs-ficha-link { display: inline-block; margin-top: 3px; margin-bottom: 4px; font-size: 11px; font-weight: 600; color: var(--orange); text-decoration: none; line-height: 1.2; }
+.cbs-ficha-link:hover { text-decoration: underline; }
+
+/* MENU HORIZONTAL DE NAVEGAÇÃO */
+.section-nav { display: none; position: sticky; top: 76px; z-index: 99; background: #F7F7F7; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin: 0 -2rem; }
+.section-nav.visible { display: block; }
+.section-nav-wrap { position: relative; }
+.section-nav-wrap::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 40px; background: linear-gradient(to right, transparent, #F7F7F7); pointer-events: none; z-index: 1; }
+.section-nav-inner { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 6px 8px; }
+.section-nav-inner::-webkit-scrollbar { display: none; }
+.section-nav-item { flex-shrink: 0; padding: 12px 20px; font-size: 13px; font-weight: 600; color: var(--gray-mid); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; cursor: pointer; }
+.section-nav-item:hover { color: var(--black); }
+.section-nav-item.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* SECTION TITLE */
+.section-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-mid); padding: 2rem 0 0.75rem; margin-top: 1.5rem; display: flex; align-items: center; gap: 10px; scroll-margin-top: 112px; }
+.tag-pill { display: inline-flex; background: var(--orange-light); color: var(--orange); border-radius: 20px; padding: 3px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+
+/* COMP TABLE */
+.comp-grid-header { display: grid; grid-template-columns: var(--col-label) 1fr 1fr; }
+.comp-col-empty { padding: 8px 0; }
+.comp-col-1-head,
+.comp-col-2-head { padding: 8px 16px; font-size: 12px; font-weight: 700; border-left: 3px solid #E8D3A5; background: #FFFAF3; border-radius: 8px 8px 0 0; color: #7a4f00; }
+.comp-row { display: grid; grid-template-columns: var(--col-label) 1fr 1fr; border-bottom: 1px solid var(--border); }
+.comp-row:last-child { border-bottom: none; }
+.comp-row.empty { display: none; }
+.comp-row-label { padding: 12px 0; font-size: 14px; color: var(--gray-mid); display: flex; align-items: center; gap: 4px; }
+.comp-cell-1,
+.comp-cell-2 { padding: 12px 16px; font-size: 14px; font-weight: 600; border-left: 3px solid #E8D3A5; background: #FFFAF3; color: var(--black); }
+.comp-row:nth-child(even) .comp-cell-1,
+.comp-row:nth-child(even) .comp-cell-2 { background: #FFF5E6; }
+.tip-icon { display: none; }
+
+/* LINHA SOLADO NA TABELA */
+.comp-row.sole-row { align-items: stretch; }
+.comp-row.sole-row .comp-row-label { align-items: flex-start; padding-top: 16px; }
+.sole-cell { padding: 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.sole-cell.s1,
+.sole-cell.s2 { border-left: 3px solid #E8D3A5; background: #FFFAF3; }
+.sole-cell svg { width: 100%; height: auto; display: block; max-width: 200px; }
+.sole-nums { font-size: 11px; color: var(--gray-mid); text-align: center; line-height: 1.6; }
+.sole-nums strong { color: var(--black); }
+
+/* SCORES — barras em blocos 0-10 */
+.scores-row { display: grid; grid-template-columns: var(--col-label) 1fr 1fr; border-bottom: 1px solid var(--border); }
+.scores-row:last-child { border-bottom: none; }
+.scores-row.empty { display: none; }
+.scores-label { padding: 12px 0; font-size: 14px; color: var(--gray-mid); }
+.scores-cell { padding: 14px 16px; display: flex; flex-direction: column; gap: 5px; }
+.scores-cell.s1,
+.scores-cell.s2 { border-left: 3px solid #E8D3A5; background: #FFFAF3; }
+.score-num { font-size: 13px; font-weight: 700; }
+.score-num.s1,
+.score-num.s2 { color: #7a4f00; }
+.score-blocks { display: flex; gap: 2px; }
+.score-block { height: 6px; border-radius: 2px; background: var(--border); flex: 1; }
+.score-block.filled.s1,
+.score-block.filled.s2 { background: #E8D3A5; }
+
+/* VEREDICTO */
+.verdict-card { background: var(--gray-light); border-radius: 12px; padding: 1.5rem; margin-top: 0.5rem; }
+.verdict-winner-line { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.verdict-trophy { font-size: 20px; line-height: 1; }
+.verdict-label-text { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--black); line-height: 1.1; }
+.verdict-winner-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--orange); line-height: 1.1; }
+.verdict-bullets { list-style: none; margin: 0 0 16px; display: flex; flex-direction: column; gap: 5px; }
+.verdict-bullets li { font-size: 14px; color: var(--gray-mid); line-height: 1.5; padding-left: 16px; position: relative; }
+.verdict-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--gray-mid); }
+.verdict-main { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; margin-bottom: 20px; }
+.verdict-cta-col { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 190px; }
+.verdict-cta { background: var(--orange); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); text-align: center; white-space: nowrap; text-decoration: none; display: inline-block; }
+.verdict-cta:hover { opacity: 0.9; }
+.verdict-alt-block { background: var(--white); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; }
+.verdict-alt-icon { font-size: 20px; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.verdict-alt-content { flex: 1; min-width: 0; }
+.verdict-alt-label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 5px; }
+.verdict-alt-text { font-size: 14px; color: var(--gray-mid); line-height: 1.6; }
+.verdict-alt-text .alt-nome { color: var(--orange); font-weight: 800; font-family: var(--font-display); font-size: 15px; text-decoration: none; }
+.verdict-alt-text .alt-qualidade { font-weight: 700; color: var(--black); }
+.verdict-footer { margin-top: 14px; font-size: 11px; color: #777; line-height: 1.6; }
+
+/* CTA SECTION */
+.cta-section { margin-top: 0.5rem; }
+.cta-intro { text-align: center; padding: 2.5rem 1rem 2rem; }
+.cta-intro-title { font-family: var(--font-display); font-size: 36px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 10px; }
+.cta-intro-title .cta-corra { color: var(--orange); font-style: italic; }
+.cta-intro-sub { font-size: 16px; color: var(--gray-mid); line-height: 1.6; }
+.cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.cta-col { overflow: hidden; border-radius: 12px; background: var(--gray-light); border: 1px solid var(--border); }
+.cta-img { width: 100%; height: 200px; background: var(--white); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--border); }
+.cta-img img.shoe-photo { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.cta-img img.shoe-placeholder { width: 72px; height: 72px; object-fit: contain; opacity: 0.18; }
+.cta-info { padding: 14px 16px 16px; }
+.cta-marca { font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 2px; }
+.cta-modelo { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.cta-genero { font-size: 11px; color: var(--gray-mid); margin-bottom: 12px; }
+.cta-btn { display: block; width: 100%; background: var(--orange); color: white; border: none; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); text-align: center; text-decoration: none; }
+.cta-btn:hover { opacity: 0.9; }
+
+/* VIDEO — oculto na v1 */
+#sec-video-wrap { display: none !important; }
+.video-embed { width: 100%; aspect-ratio: 16/9; border-radius: 14px; border: 1px solid var(--border); background: #111; overflow: hidden; }
+.video-embed iframe { width: 100%; height: 100%; border: none; }
+
+/* RODAPÉ FIXO — sem ícone */
+.sticky-footer { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: var(--white); border-top: 1px solid var(--border); padding: 10px 2rem; box-shadow: 0 -4px 16px rgba(0,0,0,0.08); }
+.sticky-footer.visible { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.btn-share { background: var(--white); color: var(--black); border: 2px solid var(--border); padding: 9px 18px; border-radius: 10px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; line-height: 1; }
+.btn-share:hover { border-color: var(--black); }
+.btn-share .icon, .btn-new .icon { font-size: 16px; line-height: 1; display: inline-flex; align-items: center; }
+.btn-new { background: var(--orange); color: white; border: none; padding: 9px 18px; border-radius: 10px; font-family: var(--font); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 7px; line-height: 1; }
+.btn-new:hover { opacity: 0.9; }
+
+/* MOBILE */
+@media (max-width: 700px) {
+  .hero h1 { font-size: 34px; }
+  .hero p { font-size: 16px; }
+  .slots-row { grid-template-columns: 1fr 32px 1fr; grid-template-rows: auto auto; gap: 8px; }
+  .compare-col { grid-column: 1 / -1; padding-top: 0; justify-content: center; flex-direction: row; }
+  .btn-compare { width: 100%; justify-content: center; }
+  .vs-badge { font-size: 15px; padding-top: 90px; }
+  :root { --col-label: 90px; }
+  .comp-cell-1, .comp-cell-2, .comp-row-label { padding: 10px 8px; font-size: 12px; }
+  .compare-bar-inner { grid-template-columns: 1fr 1px 1fr; }
+  .compare-bar { margin: 0 -1rem; }
+  .section-nav { margin: 0 -1rem; top: 76px; }
+  .section-nav-item { padding: 10px 14px; font-size: 12px; }
+  .cbs-cta { display: none; }
+  .comparison-result { padding: 0 1rem 6rem; }
+  .slot-shoe-img { height: 200px; }
+  .verdict-main { grid-template-columns: 1fr; }
+  .verdict-cta-col { align-items: flex-start; min-width: unset; }
+  .cta-grid { grid-template-columns: 1fr 1fr; }
+  .cta-img { height: 140px; }
+  .sole-cell svg { max-width: 120px; }
+  .slot-empty-icon img { width: 100px; height: 100px; }
+  .section-title { scroll-margin-top: 112px; }
+}
+
+/* BARRA DE PESO */
+.weight-bar-wrap { display: flex; flex-direction: column; gap: 4px; }
+.weight-val { font-size: 14px; font-weight: 700; color: var(--black); }
+.weight-track { position: relative; height: 6px; background: var(--border); border-radius: 3px; margin: 2px 0; }
+.weight-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; }
+.weight-fill.s1,
+.weight-fill.s2 { background: #E8D3A5; }
+.weight-marker { position: absolute; top: -5px; width: 4px; height: 16px; border-radius: 2px; transform: translateX(-50%); }
+.weight-marker.s1,
+.weight-marker.s2 { background: #b89a6a; }
+.weight-labels { display: flex; justify-content: space-between; font-size: 10px; color: #aaa; }
+
+/* CHIP PLACA */
+.placa-chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 5px; padding: 2px 8px; font-size: 13px; font-weight: 700; }
+.placa-chip.sim { background: #e8f8ee; color: #1a7f3c; }
+.placa-tipo { font-weight: 400; font-size: 12px; }
+
+/* PLACEHOLDER COM TEXTO */
+.slot-empty-placeholder { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.slot-empty-placeholder-text { font-size: 11px; color: #bbb; letter-spacing: 0.5px; }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1 id="page-h1">
+      Compare <span>tênis de corrida</span> e escolha o ideal para você
+    </h1>
+    <p>
+      Compare Nike, Adidas, Asics, Olympikus, New Balance e mais. Veja amortecimento, peso, drop e performance antes de comprar.
+    </p>
+  </div>
+</div>
+
+<!-- SELECTOR -->
+<div class="selector-area">
+  <div class="slots-row">
+    <!-- SLOT 1 -->
+    <div class="slot-card slot-1" id="card1">
+      <div class="slot-search-wrap">
+        <div class="slot-input-row">
+          <span class="slot-search-icon">🔍</span>
+          <input class="slot-search" id="search1" placeholder="Digite ou escolha um tênis" oninput="filterSlot('1',this.value)" onfocus="openSlot('1')" autocomplete="off"/>
+        </div>
+        <div class="slot-dropdown" id="drop1"></div>
+      </div>
+      <div class="slot-empty-body" id="empty1">
+        <div class="slot-empty-icon">
+          <div class="slot-empty-placeholder">
+            <img src="/assets/icons/shoe-placeholder.png" alt="" loading="lazy" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="slot-filled-body" id="filled1">
+        <button class="slot-remove" onclick="removeShoe('1')">×</button>
+        <div class="slot-shoe-img" id="img1"></div>
+        <div class="slot-info">
+          <div class="slot-brand" id="brand1"></div>
+          <div class="slot-name" id="name1"></div>
+          <div class="slot-genero" id="genero1"></div>
+          <div class="slot-tags" id="tags1"></div>
+          <div id="ficha-link1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-badge">vs</div>
+
+    <!-- SLOT 2 -->
+    <div class="slot-card slot-2" id="card2">
+      <div class="slot-search-wrap">
+        <div class="slot-input-row">
+          <span class="slot-search-icon">🔍</span>
+          <input class="slot-search" id="search2" placeholder="Digite ou escolha um tênis" oninput="filterSlot('2',this.value)" onfocus="openSlot('2')" autocomplete="off"/>
+        </div>
+        <div class="slot-dropdown" id="drop2"></div>
+      </div>
+      <div class="slot-empty-body" id="empty2">
+        <div class="slot-empty-icon">
+          <div class="slot-empty-placeholder">
+            <img src="/assets/icons/shoe-placeholder.png" alt="" loading="lazy" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="slot-filled-body" id="filled2">
+        <button class="slot-remove" onclick="removeShoe('2')">×</button>
+        <div class="slot-shoe-img" id="img2"></div>
+        <div class="slot-info">
+          <div class="slot-brand" id="brand2"></div>
+          <div class="slot-name" id="name2"></div>
+          <div class="slot-genero" id="genero2"></div>
+          <div class="slot-tags" id="tags2"></div>
+          <div id="ficha-link2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTAO COMPARAR -->
+    <div class="compare-col">
+      <button class="btn-compare" id="btnCompare" onclick="runComparison()">
+        <span class="icon">⇄</span> Ver comparação
+      </button>
+    </div>
+  </div>
+
+  <!-- POPULAR -->
+  <div class="popular-section" id="popularSection">
+    <div class="popular-label">Mais comparados</div>
+    <div class="popular-chips" id="chipsArea">
+      <span style="font-size:13px;color:#aaa;">Carregando...</span>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE WRAP -->
+<div class="page-wrap">
+  <div class="comparison-result" id="compResult">
+
+    <!-- BARRA COMPARANDO -->
+    <div class="compare-bar" id="compareBar">
+      <div class="compare-bar-inner">
+        <div class="compare-bar-shoe s1">
+          <div class="cbs-info">
+            <div class="cbs-marca" id="cb-marca1"></div>
+            <div class="cbs-modelo" id="cb-modelo1"></div>
+            <div class="cbs-genero" id="cb-genero1"></div>
+            <a class="cbs-ficha-link" id="cb-ficha1" href="#"></a>
+          </div>
+          <div class="cbs-cta">
+            <button class="cbs-buy" id="cb-buy1">Comprar</button>
+          </div>
+        </div>
+        <div class="compare-bar-divider"></div>
+        <div class="compare-bar-shoe s2">
+          <div class="cbs-info">
+            <div class="cbs-marca" id="cb-marca2"></div>
+            <div class="cbs-modelo" id="cb-modelo2"></div>
+            <div class="cbs-genero" id="cb-genero2"></div>
+            <a class="cbs-ficha-link" id="cb-ficha2" href="#"></a>
+          </div>
+          <div class="cbs-cta">
+            <button class="cbs-buy" id="cb-buy2">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU HORIZONTAL DE NAVEGAÇÃO -->
+    <div class="section-nav" id="sectionNav">
+      <div class="section-nav-wrap">
+      <div class="section-nav-inner">
+        <a class="section-nav-item" id="snav-verdict" href="#sec-verdict-wrap">Melhor escolha</a>
+        <a class="section-nav-item active" id="snav-destaques" href="#sec-destaques">Destaques</a>
+        <a class="section-nav-item" id="snav-notas" href="#sec-notas">Pontuação</a>
+        <a class="section-nav-item" id="snav-specs" href="#sec-specs">Ficha técnica</a>
+      </div>
+      </div>
+    </div>
+
+    <!-- 1. MELHOR ESCOLHA -->
+    <div id="sec-verdict-wrap" style="display:none; scroll-margin-top:112px;">
+      <h2 class="section-title" id="sec-verdict">Melhor escolha <span class="tag-pill">recomendado</span></h2>
+      <div class="verdict-card">
+        <div class="verdict-winner-line">
+          <span class="verdict-trophy">🏆</span>
+          <span class="verdict-label-text">Melhor escolha:&nbsp;</span>
+          <span class="verdict-winner-name" id="verdict-winner-name"></span>
+        </div>
+        <div class="verdict-main">
+          <ul class="verdict-bullets" id="verdict-bullets"></ul>
+          <div class="verdict-cta-col">
+            <a class="verdict-cta" id="verdict-cta-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </div>
+        <div class="verdict-alt-block">
+          <span class="verdict-alt-icon">👀</span>
+          <div class="verdict-alt-content">
+            <div class="verdict-alt-label">Considere também</div>
+            <div class="verdict-alt-text" id="verdict-alt"></div>
+          </div>
+        </div>
+        <div class="verdict-footer" id="verdict-footer"></div>
+      </div>
+    </div>
+
+    <!-- 2. DESTAQUES -->
+    <h2 class="section-title" id="sec-destaques">Destaques <span class="tag-pill">principais</span></h2>
+    <div class="comp-grid-header">
+      <div class="comp-col-empty"></div>
+      <div class="comp-col-1-head" id="dest-head-1"></div>
+      <div class="comp-col-2-head" id="dest-head-2"></div>
+    </div>
+    <div id="dest-content"></div>
+
+    <!-- 3. NOTAS -->
+    <h2 class="section-title" id="sec-notas">Pontuação <span class="tag-pill">comparativo</span></h2>
+    <div class="comp-grid-header">
+      <div class="comp-col-empty"></div>
+      <div class="comp-col-1-head" id="score-head-1"></div>
+      <div class="comp-col-2-head" id="score-head-2"></div>
+    </div>
+    <div id="scores-table"></div>
+
+    <!-- 4. ESPECIFICAÇÕES -->
+    <h2 class="section-title" id="sec-specs">Ficha técnica <span class="tag-pill">completo</span></h2>
+    <div class="comp-grid-header">
+      <div class="comp-col-empty"></div>
+      <div class="comp-col-1-head" id="specs-head-1"></div>
+      <div class="comp-col-2-head" id="specs-head-2"></div>
+    </div>
+    <div id="specs-table"></div>
+
+
+    <!-- VÍDEO — código mantido, oculto na v1 via CSS -->
+    <div id="sec-video-wrap">
+      <div class="section-title">Vídeo</div>
+      <div class="video-embed">
+        <iframe id="videoFrame" src="" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- CTA FINAL -->
+    <div class="cta-section">
+      <div class="cta-intro">
+        <div class="cta-intro-title">Comparou. Escolheu. <span class="cta-corra">Corra.</span></div>
+        <div class="cta-intro-sub">Compre seu tênis de corrida com segurança nos links abaixo.</div>
+      </div>
+      <div class="cta-grid">
+        <div class="cta-col">
+          <div class="cta-img" id="cta-img1"></div>
+          <div class="cta-info">
+            <div class="cta-marca" id="cta-marca1"></div>
+            <div class="cta-modelo" id="cta-modelo1"></div>
+            <div class="cta-genero" id="cta-genero1"></div>
+            <a class="cta-btn" id="cta-link1" href="#" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+          </div>
+        </div>
+        <div class="cta-col">
+          <div class="cta-img" id="cta-img2"></div>
+          <div class="cta-info">
+            <div class="cta-marca" id="cta-marca2"></div>
+            <div class="cta-modelo" id="cta-modelo2"></div>
+            <div class="cta-genero" id="cta-genero2"></div>
+            <a class="cta-btn" id="cta-link2" href="#" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RODAPÉ FIXO -->
+<div class="sticky-footer" id="stickyFooter">
+  <button class="btn-share" onclick="shareComparison()"><span class="icon">↗</span> Compartilhar esta página</button>
+  <button class="btn-new" onclick="newComparison()"><span class="icon">↺</span> Nova comparação</button>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const JSON_URL    = '/api/catalogo';
+const TEXTOS_URL  = 'textos.json';
+const VIDEOS_URL  = 'videos.json';
+const PLACEHOLDER = '/assets/icons/shoe-placeholder.png';
+const DROPDOWN_LIMIT = 30;
+
+// chips populares lidos dinamicamente do JSON (popular: true)
+
+const NOTAS = ['nota_geral','nota_amortecimento','nota_resposta','nota_estabilidade','nota_custo_beneficio','nota_leveza','nota_durabilidade'];
+
+let shoes=[], textos={}, videos=[], shoe1=null, shoe2=null;
+
+// ─── SEGURANÇA: SANITIZAÇÃO E URL ─────────────────────────────────────────────
+
+// sanitizeText() — converte qualquer valor para string segura sem HTML
+function sanitizeText(v) {
+  if (v === null || v === undefined) return '';
+  const s = String(v).trim();
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+// safeUrl() — valida URL antes de usar em href/src/window.open
+// Aceita apenas https:// e caminhos relativos /...
+// Rejeita javascript:, data:, vbscript: e qualquer protocolo não-https
+function safeUrl(url) {
+  if (!url || typeof url !== 'string') return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+  // Permitir caminhos relativos internos (começam com /)
+  if (trimmed.startsWith('/')) return trimmed;
+  // Bloquear protocolos perigosos
+  const lower = trimmed.toLowerCase();
+  if (
+    lower.startsWith('javascript:') ||
+    lower.startsWith('data:') ||
+    lower.startsWith('vbscript:') ||
+    lower.startsWith('blob:') ||
+    lower.startsWith('file:')
+  ) return null;
+  // Permitir apenas https
+  if (lower.startsWith('https://')) return trimmed;
+  return null;
+}
+
+// applyAffiliateLink() — configura link de afiliado em qualquer <a> ou <button>
+function applyAffiliateLink(el, url) {
+  const safe = safeUrl(url);
+  if (!safe) {
+    el.removeAttribute('href');
+    el.style.opacity = '0.4';
+    el.style.pointerEvents = 'none';
+    return;
+  }
+  if (el.tagName === 'A') {
+    el.href = safe;
+    el.target = '_blank';
+    el.rel = 'noopener noreferrer';
+  }
+  el.style.opacity = '';
+  el.style.pointerEvents = '';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const [sR,tR,vR] = await Promise.all([fetch(JSON_URL),fetch(TEXTOS_URL),fetch(VIDEOS_URL)]);
+    if(!sR.ok) throw new Error('catalogo: '+sR.status);
+    if(!tR.ok) throw new Error('textos.json: '+tR.status);
+    shoes  = await sR.json();
+    textos = await tR.json();
+    videos = vR.ok ? await vR.json() : [];
+    renderChips();
+    initSectionNav();
+    const urlP=new URLSearchParams(window.location.search);
+    const c1=urlP.get('c1'), c2=urlP.get('c2');
+    if(c1&&c2){
+      const s1=shoes.find(s=>s.id===c1), s2=shoes.find(s=>s.id===c2);
+      if(s1&&s2){selectShoe('1',s1);selectShoe('2',s2);runComparison();}
+    }
+  } catch(e) {
+    const area = document.getElementById('chipsArea');
+    area.textContent = 'Erro ao carregar dados. Tente recarregar a página.';
+    area.style.cssText = 'font-size:13px;color:#c00;';
+  }
+}
+
+/// ─── HELPERS BÁSICOS ──────────────────────────────────────────────────────────
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=sanitizeText(v);}
+function hasVal(v){return v!==null&&v!==undefined&&v!==''&&v!==0&&String(v)!=='0';}
+
+// Normalizar texto livre: sem acentos, primeira letra maiúscula
+function normalizeText(v){
+  if(!v||typeof v!=='string') return '';
+  const s=v.trim().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+
+// Tradução de placa por palavra-chave
+function lPlaca(v){
+  if(!v||typeof v!=='string') return v||'';
+  const l=v.toLowerCase();
+  if(l.includes('carbono'))    return 'Carbono';
+  if(l.includes('pebax'))      return 'Pebax';
+  if(l.includes('nylon'))      return 'Nylon';
+  if(l.includes('energyrods')) return 'EnergyRods';
+  if(l.includes('nt-x'))       return 'Pebax';
+  return v;
+}
+
+function lGen(g){return{masculino:'Masculino',feminino:'Feminino',unissex:'Unissex'}[g]||'';}
+function lCat(c){return{daily_trainer:'Treino diário',max_cushion:'Máximo amortecimento',performance:'Performance',race:'Corrida / Prova'}[c]||'';}
+function lCatHero(c){return{
+  daily_trainer:'tênis de corrida versátil',
+  max_cushion:'tênis com máximo amortecimento',
+  performance:'tênis leve e responsivo',
+  race:'tênis de alta performance para corrida'
+}[c]||lCat(c);}
+function lAmort(a){
+  if(!a) return '';
+  const k=String(a).trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  return{maximo:'Máximo',alto:'Alto',medio:'Médio',baixo:'Baixo'}[k]||normalizeText(a);
+}
+function lUso(arr){
+  if(!arr||!arr.length) return '—';
+  const m={treino_diario:'Treino diário',longao:'Longão',velocidade:'Velocidade',prova:'Prova',trilha:'Trilha'};
+  return arr.map(t=>m[String(t).trim().toLowerCase()]||t).join(' / ');
+}
+function lTamanhoVal(v){
+  if(!hasVal(v)) return 'Tamanho padrão';
+  return{
+    true_to_size:'Tamanho normal',
+    meio_numero_maior:'Compre meio número maior',
+    meio_numero_menor:'Compre meio número menor',
+    um_numero_maior:'Compre um número maior',
+    um_numero_menor:'Compre um número menor'
+  }[String(v).trim().toLowerCase()]||String(v);
+}
+
+// ─── DOM BUILDERS — sem innerHTML com dados externos ─────────────────────────
+
+// makeRowEl() — retorna elemento .comp-row seguro via DOM
+function makeRowEl(label, aVal, bVal) {
+  const aV = hasVal(aVal) ? String(aVal) : '—';
+  const bV = hasVal(bVal) ? String(bVal) : '—';
+  if (aV === '—' && bV === '—') return null;
+  const row = document.createElement('div');
+  row.className = 'comp-row';
+  const lbl = document.createElement('div');
+  lbl.className = 'comp-row-label';
+  lbl.textContent = label;
+  const c1 = document.createElement('div');
+  c1.className = 'comp-cell-1';
+  c1.textContent = aV;
+  const c2 = document.createElement('div');
+  c2.className = 'comp-cell-2';
+  c2.textContent = bV;
+  row.appendChild(lbl); row.appendChild(c1); row.appendChild(c2);
+  return row;
+}
+
+// appendRows() — adiciona array de elementos (ou null) em um container
+function appendRows(container, rows) {
+  container.textContent = '';
+  rows.forEach(r => { if (r) container.appendChild(r); });
+}
+
+// makeScoreRowEl() — retorna .scores-row seguro
+function makeScoreRowEl(label, s1val, s2val) {
+  const h1 = s1val > 0, h2 = s2val > 0;
+  if (!h1 && !h2) return null;
+  const row = document.createElement('div');
+  row.className = 'scores-row';
+
+  const lbl = document.createElement('div');
+  lbl.className = 'scores-label';
+  lbl.textContent = label;
+  row.appendChild(lbl);
+
+  ['s1','s2'].forEach((scheme, i) => {
+    const val = i === 0 ? s1val : s2val;
+    const has = i === 0 ? h1 : h2;
+    const cell = document.createElement('div');
+    cell.className = 'scores-cell ' + scheme;
+
+    const numWrap = document.createElement('span');
+    numWrap.className = 'score-num ' + scheme;
+    numWrap.style.cssText = 'display:inline-flex;align-items:center;';
+
+    if (has) {
+      numWrap.textContent = val + '/10';
+      if (val >= 9.5) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('width','14'); svg.setAttribute('height','14');
+        svg.setAttribute('viewBox','0 0 24 24');
+        svg.style.cssText = 'display:inline-block;vertical-align:middle;margin-left:5px;flex-shrink:0;';
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('fill','#22c55e');
+        path.setAttribute('d','M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z');
+        svg.appendChild(path);
+        numWrap.appendChild(svg);
+      }
+    } else {
+      numWrap.textContent = '—';
+    }
+    cell.appendChild(numWrap);
+
+    const blocks = document.createElement('div');
+    blocks.className = 'score-blocks';
+    if (has) {
+      const filled = Math.floor(val);
+      for (let k = 1; k <= 10; k++) {
+        const b = document.createElement('div');
+        b.className = 'score-block' + (k <= filled ? ' filled ' + scheme : '');
+        blocks.appendChild(b);
+      }
+    }
+    cell.appendChild(blocks);
+    row.appendChild(cell);
+  });
+  return row;
+}
+
+// makePlacaChipEl() — retorna elemento chip de placa seguro
+function makePlacaChipEl(shoe) {
+  if (!shoe.possui_placa) {
+    const span = document.createElement('span');
+    span.textContent = 'Não';
+    return span;
+  }
+  const wrap = document.createElement('span');
+  wrap.className = 'placa-chip sim';
+  wrap.textContent = 'Sim ';
+  if (shoe.tipo_placa) {
+    const tipo = document.createElement('span');
+    tipo.className = 'placa-tipo';
+    tipo.textContent = shoe.tipo_placa;
+    wrap.appendChild(tipo);
+  }
+  return wrap;
+}
+
+// makePlacaRowEl() — .comp-row para placa usando DOM
+function makePlacaRowEl(shoeA, shoeB) {
+  const row = document.createElement('div');
+  row.className = 'comp-row';
+  const lbl = document.createElement('div');
+  lbl.className = 'comp-row-label';
+  lbl.textContent = 'Placa';
+  const c1 = document.createElement('div');
+  c1.className = 'comp-cell-1';
+  c1.appendChild(makePlacaChipEl(shoeA));
+  const c2 = document.createElement('div');
+  c2.className = 'comp-cell-2';
+  c2.appendChild(makePlacaChipEl(shoeB));
+  row.appendChild(lbl); row.appendChild(c1); row.appendChild(c2);
+  return row;
+}
+
+// makeWeightBarEl() — barra de peso via DOM
+function makeWeightBarEl(shoe, scheme) {
+  if (!(shoe.peso_g > 0)) return null;
+  const MIN=200, MAX=320;
+  const raw = ((shoe.peso_g - MIN) / (MAX - MIN)) * 100;
+  const pct = Math.max(0, Math.min(100, raw));
+  const markerPct = Math.max(3, Math.min(97, pct));
+
+  const wrap = document.createElement('div');
+  wrap.className = 'weight-bar-wrap';
+
+  const val = document.createElement('span');
+  val.className = 'weight-val';
+  val.textContent = shoe.peso_g + 'g';
+  wrap.appendChild(val);
+
+  const track = document.createElement('div');
+  track.className = 'weight-track';
+  const fill = document.createElement('div');
+  fill.className = 'weight-fill ' + scheme;
+  fill.style.width = pct + '%';
+  const marker = document.createElement('div');
+  marker.className = 'weight-marker ' + scheme;
+  marker.style.left = markerPct + '%';
+  track.appendChild(fill); track.appendChild(marker);
+  wrap.appendChild(track);
+
+  const labels = document.createElement('div');
+  labels.className = 'weight-labels';
+  const spanL = document.createElement('span'); spanL.textContent = 'leve';
+  const spanR = document.createElement('span'); spanR.textContent = 'pesado';
+  labels.appendChild(spanL); labels.appendChild(spanR);
+  wrap.appendChild(labels);
+
+  return wrap;
+}
+
+// makeWeightRowEl() — .comp-row de peso via DOM
+function makeWeightRowEl(shoeA, shoeB) {
+  const aEl = makeWeightBarEl(shoeA, 's1');
+  const bEl = makeWeightBarEl(shoeB, 's2');
+  if (!aEl && !bEl) return null;
+  const row = document.createElement('div');
+  row.className = 'comp-row';
+  const lbl = document.createElement('div');
+  lbl.className = 'comp-row-label';
+  lbl.textContent = 'Peso';
+  const c1 = document.createElement('div');
+  c1.className = 'comp-cell-1';
+  if (aEl) c1.appendChild(aEl); else c1.textContent = '—';
+  const c2 = document.createElement('div');
+  c2.className = 'comp-cell-2';
+  if (bEl) c2.appendChild(bEl); else c2.textContent = '—';
+  row.appendChild(lbl); row.appendChild(c1); row.appendChild(c2);
+  return row;
+}
+
+// ─── DIAGRAMA SOLADO ──────────────────────────────────────────────────────────
+// SVG é 100% estático (sem dados externos nos atributos de conteúdo perigoso)
+function buildSoleSVG(heelPx, toePx, drop, scheme) {
+  const W=180, H=90, padL=4, padR=4, padBot=8;
+  const baseY=H-padBot;
+  const x1=padL, x2=W-padR;
+  const y1=baseY-heelPx, y2=baseY-toePx;
+  const midX=(x1+x2)/2;
+  const fill='#FFFAF3';
+  const stroke='#E8D3A5';
+  // drop é número validado como inteiro positivo antes de usar
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  poly.setAttribute('points',x1+','+baseY+' '+x2+','+baseY+' '+x2+','+y2+' '+x1+','+y1);
+  poly.setAttribute('fill',fill);
+  poly.setAttribute('stroke',stroke);
+  poly.setAttribute('stroke-width','1.5');
+  poly.setAttribute('stroke-linejoin','round');
+  svg.appendChild(poly);
+  const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+  txt.setAttribute('x',String(midX));
+  txt.setAttribute('y',String(Math.min(y1,y2)-8));
+  txt.setAttribute('font-family','Barlow,sans-serif');
+  txt.setAttribute('font-size','9');
+  txt.setAttribute('fill','#888');
+  txt.setAttribute('text-anchor','middle');
+  txt.textContent = 'drop ' + Math.round(drop) + 'mm';
+  svg.appendChild(txt);
+  return svg;
+}
+
+function makeSoleRowEl(a, b) {
+  const vA = a.stack_calcanhar_mm>0 && a.stack_antepe_mm>0 && a.drop_mm>0;
+  const vB = b.stack_calcanhar_mm>0 && b.stack_antepe_mm>0 && b.drop_mm>0;
+  if (!vA || !vB) return null;
+  const maxStack = Math.max(a.stack_calcanhar_mm, a.stack_antepe_mm, b.stack_calcanhar_mm, b.stack_antepe_mm);
+  const drawH = 58;
+  const scale = maxStack > 0 ? drawH / maxStack : 1;
+
+  const row = document.createElement('div');
+  row.className = 'comp-row sole-row';
+  const lbl = document.createElement('div');
+  lbl.className = 'comp-row-label';
+  lbl.textContent = 'Solado';
+  row.appendChild(lbl);
+
+  [[a,'s1','1'],[b,'s2','2']].forEach(([shoe, cls, scheme]) => {
+    const cell = document.createElement('div');
+    cell.className = 'sole-cell ' + cls;
+    cell.appendChild(buildSoleSVG(shoe.stack_calcanhar_mm*scale, shoe.stack_antepe_mm*scale, shoe.drop_mm, scheme));
+    const nums = document.createElement('div');
+    nums.className = 'sole-nums';
+    const s1 = document.createElement('strong'); s1.textContent = shoe.stack_calcanhar_mm + 'mm';
+    const s2 = document.createElement('strong'); s2.textContent = shoe.stack_antepe_mm + 'mm';
+    nums.appendChild(s1);
+    nums.appendChild(document.createTextNode(' calcanhar \u00a0·\u00a0 '));
+    nums.appendChild(s2);
+    nums.appendChild(document.createTextNode(' antepé'));
+    cell.appendChild(nums);
+    row.appendChild(cell);
+  });
+  return row;
+}
+
+// ─── VÍDEO ────────────────────────────────────────────────────────────────────
+function findVideo(a,b){
+  const ids=[a.id,b.id].sort();
+  return videos.find(v=>{const vi=[v.tenis_1,v.tenis_2].sort();return vi[0]===ids[0]&&vi[1]===ids[1];})||null;
+}
+
+// ─── VEREDITO ─────────────────────────────────────────────────────────────────
+function calcWinner(a,b){
+  if(!NOTAS.every(k=>(a[k]||0)>0&&(b[k]||0)>0)) return null;
+  let sA=0,sB=0;
+  NOTAS.forEach(k=>{if(a[k]>b[k])sA++;else if(b[k]>a[k])sB++;});
+  if(sA>sB) return{winner:a,loser:b};
+  if(sB>sA) return{winner:b,loser:a};
+  if(a.nota_geral>b.nota_geral) return{winner:a,loser:b};
+  if(b.nota_geral>a.nota_geral) return{winner:b,loser:a};
+  return null;
+}
+
+function getBullets(winner,loser){
+  const bullets=[],fb=textos.bullets_fallback||{};
+  for(const k of NOTAS){
+    if(bullets.length>=3) break;
+    if((winner[k]||0)>(loser[k]||0)&&textos.bullets&&textos.bullets[k]) bullets.push(textos.bullets[k]);
+  }
+  if(bullets.length<3&&winner.tipos_uso&&loser.tipos_uso)
+    for(const t of(winner.tipos_uso||[]).filter(x=>!(loser.tipos_uso||[]).includes(x))){
+      if(bullets.length>=3) break;
+      if(fb.tipos_uso&&fb.tipos_uso[t]) bullets.push(fb.tipos_uso[t]);
+    }
+  if(bullets.length<3&&winner.perfil_corredor!==loser.perfil_corredor&&fb.perfil_corredor&&fb.perfil_corredor[winner.perfil_corredor])
+    bullets.push(fb.perfil_corredor[winner.perfil_corredor]);
+  if(bullets.length<3&&winner.amortecimento_nivel!==loser.amortecimento_nivel&&fb.amortecimento_nivel&&fb.amortecimento_nivel[winner.amortecimento_nivel])
+    bullets.push(fb.amortecimento_nivel[winner.amortecimento_nivel]);
+  if(bullets.length<3&&winner.categoria!==loser.categoria&&fb.categoria&&fb.categoria[winner.categoria])
+    bullets.push(fb.categoria[winner.categoria]);
+  return bullets;
+}
+
+function getConsidere(winner,loser){
+  const c=textos.considere||{};
+  const nome = loser.marca + ' ' + loser.modelo;
+  const afiliado = loser.afiliado || null;
+  for(const k of NOTAS.slice(1)) if((loser[k]||0)>(winner[k]||0)&&c[k]) return{nome,afiliado,qualidade:c[k]};
+  const exc=(loser.tipos_uso||[]).filter(t=>!(winner.tipos_uso||[]).includes(t));
+  if(exc.length&&c.tipos_uso&&c.tipos_uso[exc[0]]) return{nome,afiliado,qualidade:c.tipos_uso[exc[0]]};
+  if(loser.perfil_corredor!==winner.perfil_corredor&&c.perfil_corredor&&c.perfil_corredor[loser.perfil_corredor])
+    return{nome,afiliado,qualidade:c.perfil_corredor[loser.perfil_corredor]};
+  if(loser.categoria!==winner.categoria&&c.categoria&&c.categoria[loser.categoria])
+    return{nome,afiliado,qualidade:c.categoria[loser.categoria]};
+  return{nome,afiliado,qualidade:c.fallback||'esse perfil fizer mais sentido para o seu uso'};
+}
+
+// ─── MENU SCROLL SPY ──────────────────────────────────────────────────────────
+function initSectionNav(){
+  document.querySelectorAll('.section-nav-item').forEach(item=>{
+    item.addEventListener('click',function(e){
+      e.preventDefault();
+      const target=document.querySelector(this.getAttribute('href'));
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+}
+
+function updateSectionNavActive(){
+  const offset=120;
+  const sections=[
+    {id:'sec-verdict-wrap', nav:'snav-verdict'},
+    {id:'sec-destaques',    nav:'snav-destaques'},
+    {id:'sec-notas',        nav:'snav-notas'},
+    {id:'sec-specs',        nav:'snav-specs'},
+  ];
+  let active=null;
+  for(const s of sections){
+    const el=document.getElementById(s.id);
+    if(!el||el.style.display==='none') continue;
+    const rect=el.getBoundingClientRect();
+    if(rect.top<=offset) active=s.nav;
+  }
+  document.querySelectorAll('.section-nav-item').forEach(item=>{
+    item.classList.toggle('active',item.id===active);
+    if(item.id===active){
+      item.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    }
+  });
+}
+window.addEventListener('scroll',updateSectionNavActive,{passive:true});
+
+// ─── CHIPS ────────────────────────────────────────────────────────────────────
+function renderChips(){
+  const area=document.getElementById('chipsArea');
+  area.textContent='';
+  const populares = shoes.filter(s=>s.popular===true||s.popular==='true');
+  if(!populares.length){
+    const msg=document.createElement('span');
+    msg.style.cssText='font-size:13px;color:#aaa;';
+    msg.textContent='Nenhum tênis em destaque.';
+    area.appendChild(msg);
+    return;
+  }
+  populares.forEach(s=>{
+    const c=document.createElement('div');
+    c.className='chip';
+    if((shoe1&&shoe1.id===s.id)||(shoe2&&shoe2.id===s.id)) c.classList.add('used');
+    c.textContent = s.marca + ' ' + s.modelo + ' · ' + lGen(s.genero);
+    c.onclick=()=>{if(c.classList.contains('used'))return;selectShoe(!shoe1?'1':!shoe2?'2':null,s);};
+    area.appendChild(c);
+  });
+}
+
+// ─── DROPDOWN ────────────────────────────────────────────────────────────────
+function renderDropdown(slot,list,isSearch){
+  const dl=document.getElementById('drop'+slot);
+  dl.textContent='';
+  if(!list.length){
+    const empty=document.createElement('div');
+    empty.className='slot-dropdown-empty';
+    empty.textContent='Nenhum tênis encontrado';
+    dl.appendChild(empty);
+    return;
+  }
+  let ordered=list;
+  if(!isSearch){const p=list.filter(s=>s.popular),r=list.filter(s=>!s.popular);ordered=[...p,...r].slice(0,DROPDOWN_LIMIT);}
+  ordered.forEach(s=>{
+    const item=document.createElement('div');
+    item.className='slot-dropdown-item';
+    const used=(shoe1&&shoe1.id===s.id)||(shoe2&&shoe2.id===s.id);
+    if(used){item.style.opacity='0.4';item.style.pointerEvents='none';}
+
+    const leftSpan = document.createElement('span');
+    const marca = document.createElement('span');
+    marca.className = 'di-marca';
+    marca.textContent = s.marca;
+    const modelo = document.createElement('span');
+    modelo.className = 'di-modelo';
+    modelo.textContent = s.modelo;
+    const genero = document.createElement('span');
+    genero.className = 'di-genero';
+    genero.textContent = lGen(s.genero);
+    leftSpan.appendChild(marca);
+    leftSpan.appendChild(document.createTextNode(' '));
+    leftSpan.appendChild(modelo);
+    leftSpan.appendChild(genero);
+    item.appendChild(leftSpan);
+    item.onclick=()=>selectShoe(slot,s);
+    dl.appendChild(item);
+  });
+}
+function openSlot(slot){renderDropdown(slot,shoes,false);document.getElementById('drop'+slot).classList.add('open');}
+function filterSlot(slot,q){
+  renderDropdown(slot,q?shoes.filter(s=>(s.modelo+' '+s.marca+' '+(s.genero||'')).toLowerCase().includes(q.toLowerCase())):shoes,!!q);
+  document.getElementById('drop'+slot).classList.add('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#card1'))document.getElementById('drop1').classList.remove('open');
+  if(!e.target.closest('#card2'))document.getElementById('drop2').classList.remove('open');
+});
+
+// ─── IMAGENS ──────────────────────────────────────────────────────────────────
+function setShoeImage(slot, shoe) {
+  const el = document.getElementById('img'+slot);
+  el.textContent = '';
+  const imgUrl = safeUrl(shoe.imagem);
+  if (imgUrl) {
+    const img = document.createElement('img');
+    img.className = 'shoe-photo';
+    img.loading = 'lazy';
+    img.src = imgUrl;
+    img.alt = shoe.marca + ' ' + shoe.modelo + ' ' + lGen(shoe.genero);
+    img.onerror = function(){ setPlaceholder(el); };
+    el.appendChild(img);
+  } else {
+    setPlaceholder(el);
+  }
+}
+
+function setPlaceholder(el) {
+  el.textContent = '';
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:8px;';
+  const img = document.createElement('img');
+  img.className = 'shoe-placeholder';
+  img.src = PLACEHOLDER;
+  img.alt = '';
+  img.onerror = function(){ this.style.display='none'; };
+  const txt = document.createElement('span');
+  txt.style.cssText = 'font-size:11px;color:#bbb;letter-spacing:0.5px;';
+  txt.textContent = 'imagem em breve';
+  wrap.appendChild(img);
+  wrap.appendChild(txt);
+  el.appendChild(wrap);
+}
+
+function setCtaImage(slot, shoe) {
+  const el = document.getElementById('cta-img'+slot);
+  el.textContent = '';
+  const imgUrl = safeUrl(shoe.imagem);
+  if (imgUrl) {
+    const img = document.createElement('img');
+    img.className = 'shoe-photo';
+    img.loading = 'lazy';
+    img.src = imgUrl;
+    img.alt = shoe.marca + ' ' + shoe.modelo + ' ' + lGen(shoe.genero);
+    img.onerror = function(){
+      el.textContent = '';
+      const ph = document.createElement('img');
+      ph.className = 'shoe-placeholder';
+      ph.src = PLACEHOLDER;
+      ph.alt = '';
+      ph.loading = 'lazy';
+      el.appendChild(ph);
+    };
+    el.appendChild(img);
+  } else {
+    const ph = document.createElement('img');
+    ph.className = 'shoe-placeholder';
+    ph.src = PLACEHOLDER;
+    ph.alt = '';
+    ph.loading = 'lazy';
+    el.appendChild(ph);
+  }
+}
+
+// ─── TAGS DO CARD ─────────────────────────────────────────────────────────────
+function renderSlotTags(slot, shoe) {
+  const container = document.getElementById('tags'+slot);
+  container.textContent = '';
+  const tagCat = document.createElement('span');
+  tagCat.className = 'slot-tag';
+  tagCat.textContent = lCat(shoe.categoria);
+  container.appendChild(tagCat);
+  if (shoe.peso_g > 0) {
+    const tagPeso = document.createElement('span');
+    tagPeso.className = 'slot-tag';
+    tagPeso.textContent = 'Peso ' + shoe.peso_g + 'g';
+    container.appendChild(tagPeso);
+  }
+}
+
+// ─── SELECT / REMOVE ──────────────────────────────────────────────────────────
+function selectShoe(slot,shoe){
+  if(!slot)return;
+  if(slot==='1')shoe1=shoe;else shoe2=shoe;
+  document.getElementById('search'+slot).value='';
+  document.getElementById('drop'+slot).classList.remove('open');
+  document.getElementById('empty'+slot).style.display='none';
+  document.getElementById('filled'+slot).style.display='block';
+
+  // Imagem clicável — envolve em <a>
+  const imgEl = document.getElementById('img'+slot);
+  imgEl.textContent='';
+  const fichaUrl = '/tenis/' + encodeURIComponent(shoe.id);
+  const imgLink = document.createElement('a');
+  imgLink.className = 'shoe-img-link';
+  imgLink.href = fichaUrl;
+  const imgUrl = safeUrl(shoe.imagem);
+  if (imgUrl) {
+    const img = document.createElement('img');
+    img.className='shoe-photo'; img.loading='lazy'; img.src=imgUrl;
+    img.alt = shoe.marca+' '+shoe.modelo+' '+lGen(shoe.genero);
+    img.onerror=function(){setPlaceholder(imgEl);};
+    imgLink.appendChild(img);
+  } else {
+    setPlaceholder(imgEl);
+  }
+  imgEl.appendChild(imgLink);
+
+  // Nome clicável
+  const nameEl = document.getElementById('name'+slot);
+  nameEl.textContent = '';
+  const nameLink = document.createElement('a');
+  nameLink.href = fichaUrl;
+  nameLink.textContent = shoe.modelo;
+  nameEl.appendChild(nameLink);
+
+  // Link "Ver ficha completa"
+  const fichaLinkEl = document.getElementById('ficha-link'+slot);
+  fichaLinkEl.textContent = '';
+  const fichaA = document.createElement('a');
+  fichaA.className = 'slot-ficha-link';
+  fichaA.href = fichaUrl;
+  fichaA.textContent = '→ Ver ficha completa';
+  fichaLinkEl.appendChild(fichaA);
+
+  set('brand'+slot, shoe.marca);
+  set('genero'+slot, lGen(shoe.genero));
+  renderSlotTags(slot, shoe);
+  document.getElementById('card'+slot).classList.add('has-shoe');
+  renderChips();updateBtn();
+}
+function removeShoe(slot){
+  if(slot==='1')shoe1=null;else shoe2=null;
+  document.getElementById('empty'+slot).style.display='flex';
+  document.getElementById('filled'+slot).style.display='none';
+  document.getElementById('card'+slot).classList.remove('has-shoe');
+  renderChips();updateBtn();hideResult();
+}
+function updateBtn(){document.getElementById('btnCompare').classList.toggle('active',!!(shoe1&&shoe2));}
+
+function hideResult(){
+  ['compResult','compareBar','stickyFooter'].forEach(id=>document.getElementById(id).classList.remove('visible'));
+  document.getElementById('sectionNav').classList.remove('visible');
+  document.getElementById('popularSection').style.display='block';
+  document.getElementById('sec-verdict-wrap').style.display='none';
+  document.getElementById('videoFrame').src='';
+  document.getElementById('schema-jsonld').textContent='';
+  const defaultTitle='ComparaTênis — Comparador de Tênis de Corrida';
+  const defaultDesc='Compare tênis de corrida lado a lado. Veja diferenças técnicas, pontuação objetiva e escolha o melhor tênis para o seu perfil.';
+  history.pushState({},'',window.location.pathname);
+  document.getElementById('page-canonical').setAttribute('href','https://comparatenis.com.br/');
+  document.title=defaultTitle;
+  document.getElementById('page-title').textContent=defaultTitle;
+  document.getElementById('page-desc').setAttribute('content',defaultDesc);
+  document.getElementById('page-robots').setAttribute('content','index, follow');
+  document.getElementById('og-title').setAttribute('content',defaultTitle);
+  document.getElementById('og-desc').setAttribute('content',defaultDesc);
+  // Restaurar H1 estático
+  const h1 = document.getElementById('page-h1');
+  h1.textContent = '';
+  h1.appendChild(document.createTextNode('Compare '));
+  const spanH1 = document.createElement('span');
+  spanH1.textContent = 'tênis de corrida';
+  h1.appendChild(spanH1);
+  h1.appendChild(document.createTextNode(' e escolha o ideal para você'));
+}
+
+// ─── COMPARAÇÃO ───────────────────────────────────────────────────────────────
+function runComparison(){
+  if(!shoe1||!shoe2)return;
+  const a=shoe1,b=shoe2;
+
+  const nA = a.marca+' '+a.modelo, nB = b.marca+' '+b.modelo;
+  const titleComp = nA+' vs '+nB+' | ComparaTênis';
+  const pesoDescA = a.peso_g>0 ? a.peso_g+'g' : '';
+  const pesoDescB = b.peso_g>0 ? b.peso_g+'g' : '';
+  const pesoStr = (pesoDescA&&pesoDescB) ? ' Pesos: '+pesoDescA+' vs '+pesoDescB+'.' : '';
+  const descComp = 'Compare '+nA+' vs '+nB+' com notas, peso e análise objetiva.'+pesoStr+' Veja amortecimento, drop e qual é melhor para você.';
+
+  document.title = titleComp;
+  document.getElementById('page-title').textContent = titleComp;
+  document.getElementById('page-desc').setAttribute('content', descComp);
+  document.getElementById('page-robots').setAttribute('content','index, follow');
+  document.getElementById('og-title').setAttribute('content', titleComp);
+  document.getElementById('og-desc').setAttribute('content', descComp);
+  const ogImg = safeUrl(a.imagem) || safeUrl(b.imagem) || '/assets/og-default.webp';
+  document.getElementById('og-image').setAttribute('content', ogImg);
+
+  // Schema JSON-LD — dados numéricos/strings sanitizados
+  const schema = {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name": nA+" vs "+nB,
+    "description": "Comparação técnica entre "+nA+" e "+nB,
+    "numberOfItems": 2,
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":nA,"item":{"@type":"Product","name":nA,"description":a.marca+" "+a.modelo+" — Nota geral: "+a.nota_geral+"/10"}},
+      {"@type":"ListItem","position":2,"name":nB,"item":{"@type":"Product","name":nB,"description":b.marca+" "+b.modelo+" — Nota geral: "+b.nota_geral+"/10"}}
+    ]
+  };
+  document.getElementById('schema-jsonld').textContent = JSON.stringify(schema);
+
+  const params='?c1='+encodeURIComponent(a.id)+'&c2='+encodeURIComponent(b.id);
+  history.pushState({c1:a.id,c2:b.id},'',params);
+  document.getElementById('page-canonical').setAttribute('href', window.location.origin+window.location.pathname+params);
+
+  // H1 dinâmico via DOM — sem innerHTML
+  const h1 = document.getElementById('page-h1');
+  h1.textContent = '';
+  h1.appendChild(document.createTextNode(nA + ' '));
+  const vsSpan = document.createElement('span');
+  vsSpan.textContent = 'vs';
+  h1.appendChild(vsSpan);
+  h1.appendChild(document.createTextNode(' ' + nB));
+
+  // Barra sticky
+  set('cb-marca1',a.marca); set('cb-modelo1',a.modelo); set('cb-genero1',lGen(a.genero));
+  set('cb-marca2',b.marca); set('cb-modelo2',b.modelo); set('cb-genero2',lGen(b.genero));
+
+  const ficha1El = document.getElementById('cb-ficha1');
+  const ficha2El = document.getElementById('cb-ficha2');
+  ficha1El.href = '/tenis/' + encodeURIComponent(a.id);
+  ficha1El.textContent = 'Ver ficha completa';
+  ficha2El.href = '/tenis/' + encodeURIComponent(b.id);
+  ficha2El.textContent = 'Ver ficha completa';
+
+  // Botões comprar na barra
+  const buy1 = document.getElementById('cb-buy1');
+  const buy2 = document.getElementById('cb-buy2');
+  buy1.onclick = () => { const u = safeUrl(a.afiliado); if(u) window.open(u,'_blank','noopener,noreferrer'); };
+  buy2.onclick = () => { const u = safeUrl(b.afiliado); if(u) window.open(u,'_blank','noopener,noreferrer'); };
+
+  // Headers das tabelas
+  ['score','dest','specs'].forEach(s=>{
+    set(s+'-head-1', a.marca+' '+a.modelo);
+    set(s+'-head-2', b.marca+' '+b.modelo);
+  });
+
+  // ── Destaques ──
+  const destContainer = document.getElementById('dest-content');
+  destContainer.textContent = '';
+  [
+    makeRowEl('Categoria',    lCat(a.categoria),                lCat(b.categoria)),
+    makeRowEl('Tipos de uso', lUso(a.tipos_uso),                lUso(b.tipos_uso)),
+    makeRowEl('Amortecimento',lAmort(a.amortecimento_nivel),    lAmort(b.amortecimento_nivel)),
+    makeWeightRowEl(a,b),
+    makeRowEl('Tamanho',      lTamanhoVal(a.recomendacao_tamanho), lTamanhoVal(b.recomendacao_tamanho)),
+    makePlacaRowEl(a,b),
+    makeRowEl('Drop',         a.drop_mm>0?a.drop_mm+'mm':'—',  b.drop_mm>0?b.drop_mm+'mm':'—'),
+  ].forEach(r=>{ if(r) destContainer.appendChild(r); });
+  // Solado — sem título
+  const soleEl = makeSoleRowEl(a,b);
+  if(soleEl){ soleEl.querySelector('.comp-row-label').textContent=''; destContainer.appendChild(soleEl); }
+
+  // ── Pontuação ──
+  const scoresContainer = document.getElementById('scores-table');
+  scoresContainer.textContent = '';
+  [
+    makeScoreRowEl('Nota geral',       a.nota_geral,          b.nota_geral),
+    makeScoreRowEl('Amortecimento',    a.nota_amortecimento,  b.nota_amortecimento),
+    makeScoreRowEl('Leveza',           a.nota_leveza,         b.nota_leveza),
+    makeScoreRowEl('Retorno de energia',a.nota_resposta,      b.nota_resposta),
+    makeScoreRowEl('Custo-benefício',  a.nota_custo_beneficio,b.nota_custo_beneficio),
+    makeScoreRowEl('Estabilidade',     a.nota_estabilidade,   b.nota_estabilidade),
+    makeScoreRowEl('Durabilidade',     a.nota_durabilidade,   b.nota_durabilidade),
+  ].forEach(r=>{ if(r) scoresContainer.appendChild(r); });
+
+  // ── Ficha técnica ──
+  const specsContainer = document.getElementById('specs-table');
+  specsContainer.textContent = '';
+  [
+    makeRowEl('Marca',              a.marca,               b.marca),
+    makeRowEl('Modelo',             a.modelo,              b.modelo),
+    makeRowEl('Gênero',             lGen(a.genero),        lGen(b.genero)),
+    makeRowEl('Ano de lançamento',  a.ano_lancamento,      b.ano_lancamento),
+    makeRowEl('Categoria',          lCat(a.categoria),     lCat(b.categoria)),
+    makeRowEl('Tipos de uso',       lUso(a.tipos_uso),     lUso(b.tipos_uso)),
+    makeRowEl('Peso',               a.peso_g>0?a.peso_g+'g':null, b.peso_g>0?b.peso_g+'g':null),
+    makeRowEl('Amortecimento',      lAmort(a.amortecimento_nivel), lAmort(b.amortecimento_nivel)),
+    makeRowEl('Espuma',             a.espuma,              b.espuma),
+    makeRowEl('Drop',               a.drop_mm>0?a.drop_mm+'mm':null, b.drop_mm>0?b.drop_mm+'mm':null),
+    makeRowEl('Altura no calcanhar',a.stack_calcanhar_mm>0?a.stack_calcanhar_mm+'mm':null, b.stack_calcanhar_mm>0?b.stack_calcanhar_mm+'mm':null),
+    makeRowEl('Altura no antepé',   a.stack_antepe_mm>0?a.stack_antepe_mm+'mm':null, b.stack_antepe_mm>0?b.stack_antepe_mm+'mm':null),
+    makePlacaRowEl(a,b),
+    makeRowEl('Tipo de placa',      a.possui_placa&&a.tipo_placa?lPlaca(a.tipo_placa):null, b.possui_placa&&b.tipo_placa?lPlaca(b.tipo_placa):null),
+    makeRowEl('Estabilidade',       a.estabilidade_tipo?normalizeText(a.estabilidade_tipo):null, b.estabilidade_tipo?normalizeText(b.estabilidade_tipo):null),
+    makeRowEl('Cabedal',            a.cabedal,             b.cabedal),
+    makeRowEl('Solado',             a.solado,              b.solado),
+  ].forEach(r=>{ if(r) specsContainer.appendChild(r); });
+
+
+  // ── CTA ──
+  set('cta-marca1',a.marca); set('cta-modelo1',a.modelo); set('cta-genero1',lGen(a.genero));
+  set('cta-marca2',b.marca); set('cta-modelo2',b.modelo); set('cta-genero2',lGen(b.genero));
+  setCtaImage('1',a); setCtaImage('2',b);
+  applyAffiliateLink(document.getElementById('cta-link1'), a.afiliado);
+  applyAffiliateLink(document.getElementById('cta-link2'), b.afiliado);
+
+  // ── Veredito ──
+  const result = calcWinner(a,b);
+  const vWrap = document.getElementById('sec-verdict-wrap');
+  const snavVerdict = document.getElementById('snav-verdict');
+  if (!result) {
+    vWrap.style.display = 'none';
+    snavVerdict.style.display = 'none';
+  } else {
+    vWrap.style.display = 'block';
+    snavVerdict.style.display = '';
+    const {winner, loser} = result;
+
+    // Nome do vencedor — link se tiver afiliado, texto simples se não
+    const winEl = document.getElementById('verdict-winner-name');
+    winEl.textContent = '';
+    const winUrl = safeUrl(winner.afiliado);
+    if (winUrl) {
+      const winLink = document.createElement('a');
+      winLink.href = winUrl;
+      winLink.target = '_blank';
+      winLink.rel = 'noopener noreferrer';
+      winLink.style.cssText = 'color:inherit;text-decoration:none;';
+      winLink.textContent = winner.marca + ' ' + winner.modelo;
+      winEl.appendChild(winLink);
+    } else {
+      winEl.textContent = winner.marca + ' ' + winner.modelo;
+    }
+
+    // Bullets do veredito via createElement
+    const bulletsEl = document.getElementById('verdict-bullets');
+    bulletsEl.textContent = '';
+    getBullets(winner, loser).forEach(t => {
+      const li = document.createElement('li');
+      li.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+      bulletsEl.appendChild(li);
+    });
+
+    // CTA do veredito
+    const ctaEl = document.getElementById('verdict-cta-link');
+    ctaEl.textContent = 'Ver melhor oferta do ' + winner.modelo;
+    applyAffiliateLink(ctaEl, winner.afiliado);
+
+    // Bloco "Considere também"
+    const {nome, afiliado, qualidade} = getConsidere(winner, loser);
+    const altEl = document.getElementById('verdict-alt');
+    altEl.textContent = '';
+    altEl.appendChild(document.createTextNode('Considere '));
+    const altUrl = safeUrl(afiliado);
+    const altNome = document.createElement('a');
+    altNome.className = 'alt-nome';
+    altNome.textContent = nome;
+    if (altUrl) {
+      altNome.href = altUrl;
+      altNome.target = '_blank';
+      altNome.rel = 'noopener noreferrer';
+    } else {
+      altNome.removeAttribute('href');
+    }
+    altEl.appendChild(altNome);
+    altEl.appendChild(document.createTextNode(' se você busca '));
+    const altQ = document.createElement('strong');
+    altQ.className = 'alt-qualidade';
+    altQ.textContent = qualidade;
+    altEl.appendChild(altQ);
+    altEl.appendChild(document.createTextNode('.'));
+
+    set('verdict-footer', textos.rodape_veredito || 'Análise automatizada com base em dados técnicos');
+  }
+
+  // ── Vídeo ──
+  const vm = findVideo(a,b);
+  if (vm) {
+    const safeVideo = safeUrl(vm.youtube_url);
+    document.getElementById('videoFrame').src = safeVideo || '';
+  } else {
+    document.getElementById('videoFrame').src = '';
+  }
+
+  // Mostrar resultado
+  ['compResult','compareBar','stickyFooter'].forEach(id=>document.getElementById(id).classList.add('visible'));
+  document.getElementById('sectionNav').classList.add('visible');
+  document.getElementById('popularSection').style.display='none';
+  setTimeout(()=>document.getElementById('compResult').scrollIntoView({behavior:'smooth',block:'start'}),150);
+}
+
+function newComparison(){window.scrollTo({top:0,behavior:'smooth'});setTimeout(hideResult,400);}
+
+function shareComparison(){
+  const text='Comparei o '+shoe1.marca+' '+shoe1.modelo+' vs '+shoe2.marca+' '+shoe2.modelo+' no ComparaTênis!';
+  if(navigator.share) navigator.share({title:document.title, text, url:window.location.href});
+  else { navigator.clipboard.writeText(window.location.href); alert('Link copiado!'); }
+}
+
+init();
+</script>
+</body>
+</html>

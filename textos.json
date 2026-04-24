@@ -1,0 +1,64 @@
+{
+  "bullets": {
+    "nota_geral": "tem nota geral superior",
+    "nota_amortecimento": "oferece melhor amortecimento",
+    "nota_resposta": "entrega mais resposta",
+    "nota_estabilidade": "oferece mais estabilidade",
+    "nota_custo_beneficio": "tem melhor custo-benefício",
+    "nota_leveza": "é mais leve na avaliação técnica",
+    "nota_durabilidade": "tem melhor perspectiva de durabilidade"
+  },
+  "bullets_fallback": {
+    "tipos_uso": {
+      "treino_diario": "é mais voltado para treino diário",
+      "longao": "é mais indicado para longões",
+      "velocidade": "é mais voltado para velocidade",
+      "prova": "é mais indicado para provas",
+      "trilha": "é mais indicado para trilha"
+    },
+    "perfil_corredor": {
+      "iniciante": "é mais amigável para iniciantes",
+      "intermediario": "é mais indicado para corredores intermediários",
+      "avancado": "é mais indicado para corredores avançados"
+    },
+    "amortecimento_nivel": {
+      "maximo": "oferece amortecimento máximo",
+      "alto": "oferece amortecimento alto",
+      "medio": "oferece amortecimento moderado",
+      "baixo": "oferece amortecimento mínimo"
+    },
+    "categoria": {
+      "daily_trainer": "é um tênis de treino diário",
+      "max_cushion": "é um tênis de máximo amortecimento",
+      "performance": "é um tênis de performance",
+      "race": "é um tênis de corrida / prova"
+    }
+  },
+  "considere": {
+    "nota_amortecimento": "mais amortecimento",
+    "nota_resposta": "mais resposta",
+    "nota_estabilidade": "mais estabilidade",
+    "nota_custo_beneficio": "melhor custo-benefício",
+    "nota_leveza": "uma proposta mais leve",
+    "nota_durabilidade": "mais durabilidade",
+    "tipos_uso": {
+      "longao": "um tênis mais voltado para longão",
+      "velocidade": "um tênis mais voltado para velocidade",
+      "prova": "um tênis mais voltado para prova",
+      "treino_diario": "um tênis mais voltado ao treino diário"
+    },
+    "perfil_corredor": {
+      "iniciante": "um modelo mais amigável para iniciantes",
+      "intermediario": "um modelo mais alinhado ao perfil intermediário",
+      "avancado": "um modelo mais alinhado ao perfil avançado"
+    },
+    "categoria": {
+      "performance": "um tênis mais voltado a performance",
+      "race": "um tênis de corrida / prova",
+      "max_cushion": "máximo amortecimento",
+      "daily_trainer": "um tênis mais voltado ao treino diário"
+    },
+    "fallback": "esse perfil fizer mais sentido para o seu uso"
+  },
+  "rodape_veredito": "Análise automatizada com base em dados técnicos"
+}
